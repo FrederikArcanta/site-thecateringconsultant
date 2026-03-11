@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Catering Consultant — Architects in Catering Processes & Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --charcoal: #3B3B3B;
+      --charcoal-dark: #2A2A2A;
+      --blue: #4A8DB7;
+      --blue-light: #6BAAD0;
+      --blue-dark: #3A7499;
+      --bg: #FAFAFA;
+      --bg-alt: #F3F4F6;
+      --bg-dark: #1C1C1E;
+      --text: #3B3B3B;
+      --text-light: #6B7280;
+      --white: #FFFFFF;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Lora', Georgia, serif; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250, 250, 250, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: var(--shadow); }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.75rem; text-decoration: none;
+    }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-light); font-weight: 500; font-size: 0.9rem;
+      transition: color 0.2s; position: relative;
+    }
+    .nav-links a:hover { color: var(--charcoal); }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: var(--blue); transition: width 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--blue); color: var(--white) !important;
+      padding: 0.5rem 1.25rem; border-radius: 8px; font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .nav-cta::after { display: none !important; }
+
+    .lang-switch { display: flex; gap: 0.25rem; margin-left: 0.5rem; }
+    .lang-switch button {
+      background: none; border: 1px solid rgba(0,0,0,0.12); color: var(--text-light);
+      padding: 0.25rem 0.5rem; border-radius: 4px; font-family: inherit; font-size: 0.75rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+    }
+    .lang-switch button.active { background: var(--charcoal); color: var(--white); border-color: var(--charcoal); }
+    .lang-switch button:hover:not(.active) { border-color: var(--charcoal); color: var(--charcoal); }
+
+    .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+    .mobile-toggle span { display: block; width: 24px; height: 2px; background: var(--charcoal); margin: 5px 0; transition: 0.3s; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, var(--charcoal-dark) 0%, var(--charcoal) 50%, #4A6670 100%);
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(74, 141, 183, 0.2) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; max-width: 820px; }
+    .hero-logo { margin-bottom: 2rem; }
+    .hero-logo img { height: 80px; width: auto; filter: brightness(0) invert(1); opacity: 0.95; }
+    .hero-accent {
+      width: 80px; height: 3px; background: var(--blue); margin: 0 auto 2rem; border-radius: 2px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; color: var(--white);
+      line-height: 1.15; margin-bottom: 1.5rem; letter-spacing: -0.5px;
+    }
+    .hero h1 em {
+      font-style: normal; color: var(--blue-light);
+    }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.7); max-width: 620px; margin: 0 auto 2.5rem; font-weight: 300; line-height: 1.8; }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; transition: all 0.25s;
+    }
+    .btn-white { background: var(--white); color: var(--charcoal); }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.3); }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+    .hero-tags {
+      display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem;
+    }
+    .hero-tag {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.6); padding: 0.35rem 0.85rem; border-radius: 6px;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.5px;
+    }
+
+    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 2; }
+    .scroll-hint span { display: block; width: 24px; height: 38px; border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; position: relative; }
+    .scroll-hint span::after {
+      content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+      width: 4px; height: 8px; background: rgba(255,255,255,0.5); border-radius: 2px;
+      animation: scroll-anim 1.8s ease-in-out infinite;
+    }
+    @keyframes scroll-anim {
+      0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 0.3; transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* SECTIONS */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: inline-block; color: var(--blue); font-weight: 600; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; color: var(--charcoal-dark);
+      letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-subtitle { font-size: 1.05rem; color: var(--text-light); max-width: 640px; font-weight: 300; line-height: 1.8; }
+
+    /* INTRO */
+    .intro { background: var(--white); }
+    .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+    .intro-visual {
+      background: linear-gradient(135deg, var(--charcoal-dark), #4A6670);
+      border-radius: var(--radius); padding: 3rem 2rem; position: relative; overflow: hidden;
+      min-height: 340px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .intro-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .intro-visual-content { position: relative; z-index: 1; text-align: center; }
+    .intro-visual-content .big-number { font-family: 'Lora', serif; font-size: 4rem; font-weight: 700; color: var(--white); line-height: 1; }
+    .intro-visual-content .big-label { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 2px; }
+    .intro-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; width: 100%; }
+    .intro-stat {
+      background: rgba(255,255,255,0.08); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 1rem; text-align: center;
+    }
+    .intro-stat .val { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); }
+    .intro-stat .lbl { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem; }
+    .intro-text h3 { font-size: 1.5rem; font-weight: 700; color: var(--charcoal-dark); margin-bottom: 1rem; }
+    .intro-text p { color: var(--text-light); margin-bottom: 1rem; line-height: 1.8; }
+
+    /* PILLARS */
+    .pillars { background: var(--bg); }
+    .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+    .pillar-card {
+      background: var(--white); border-radius: var(--radius); padding: 2.5rem 2rem;
+      border: 1px solid rgba(0,0,0,0.04); transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .pillar-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+    }
+    .pillar-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .pillar-card:hover::before { transform: scaleX(1); }
+    .pillar-icon {
+      width: 56px; height: 56px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-light));
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;
+    }
+    .pillar-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--charcoal-dark); margin-bottom: 0.75rem; }
+    .pillar-card p { font-size: 0.95rem; color: var(--text-light); line-height: 1.7; margin-bottom: 1.25rem; }
+    .pillar-list { list-style: none; }
+    .pillar-list li {
+      font-size: 0.85rem; color: var(--text-light); padding: 0.35rem 0; padding-left: 1.25rem;
+      position: relative; line-height: 1.5;
+    }
+    .pillar-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.65rem;
+      width: 6px; height: 6px; background: var(--blue); border-radius: 50%;
+    }
+
+    /* APPROACH */
+    .approach { background: var(--white); }
+    .steps-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0; margin-top: 3rem; position: relative;
+    }
+    .step-card { text-align: center; padding: 2rem 1.5rem; position: relative; }
+    .step-card:not(:last-child)::after {
+      content: ''; position: absolute; top: calc(2rem + 24px); right: -1.5rem; width: 3rem; height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light)); z-index: 1;
+    }
+    .step-number {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--charcoal), #4A6670); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.1rem; margin: 0 auto 1.25rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .step-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--charcoal-dark); margin-bottom: 0.5rem; }
+    .step-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; max-width: 220px; margin: 0 auto; }
+
+    /* SECTORS */
+    .sectors {
+      background: linear-gradient(160deg, var(--charcoal-dark), var(--charcoal));
+      position: relative; overflow: hidden;
+    }
+    .sectors::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(74, 141, 183, 0.12), transparent 60%);
+    }
+    .sectors .container { position: relative; z-index: 1; }
+    .sectors .section-label { color: rgba(255,255,255,0.4); }
+    .sectors .section-title { color: var(--white); }
+    .sectors .section-subtitle { color: rgba(255,255,255,0.6); }
+    .sectors-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; margin-top: 3rem;
+    }
+    .sector-card {
+      background: rgba(255,255,255,0.06); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius);
+      padding: 2rem 1.5rem; text-align: center; transition: all 0.3s;
+    }
+    .sector-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
+    .sector-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(74, 141, 183, 0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .sector-card h3 { color: var(--white); font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .sector-card p { color: rgba(255,255,255,0.5); font-size: 0.8rem; line-height: 1.6; }
+
+    /* ABOUT / FOUNDER */
+    .founder { background: var(--bg); }
+    .founder-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: center; margin-top: 3rem; }
+    .founder-card {
+      background: var(--white); border-radius: var(--radius); padding: 2.5rem;
+      border: 1px solid rgba(0,0,0,0.04); text-align: center;
+    }
+    .founder-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--charcoal), #4A6670);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;
+      font-family: 'Lora', serif; font-size: 1.75rem; font-weight: 700; color: var(--white);
+    }
+    .founder-card h3 { font-size: 1.2rem; font-weight: 700; color: var(--charcoal-dark); margin-bottom: 0.25rem; }
+    .founder-card .role { color: var(--blue); font-size: 0.9rem; font-weight: 500; margin-bottom: 1rem; }
+    .founder-card .contact-line { font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.25rem; }
+    .founder-card .contact-line a { color: var(--blue); text-decoration: none; }
+    .founder-card .contact-line a:hover { text-decoration: underline; }
+    .founder-details h3 { font-size: 1.5rem; font-weight: 700; color: var(--charcoal-dark); margin-bottom: 1rem; }
+    .founder-details p { color: var(--text-light); line-height: 1.8; margin-bottom: 1rem; }
+    .founder-creds { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .founder-cred {
+      background: var(--bg-alt); color: var(--charcoal); padding: 0.3rem 0.75rem; border-radius: 6px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+
+    /* CTA */
+    .cta { background: var(--bg-alt); text-align: center; padding: 5rem 2rem; }
+    .cta h2 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; color: var(--charcoal-dark); margin-bottom: 1rem; }
+    .cta p { color: var(--text-light); font-size: 1.05rem; max-width: 560px; margin: 0 auto 2.5rem; font-weight: 300; line-height: 1.8; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal-dark); padding: 3rem 2rem; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-brand { font-family: 'Lora', serif; font-weight: 700; font-size: 1.1rem; color: var(--white); }
+    .footer-brand span { color: var(--blue); font-weight: 400; }
+    footer p { color: rgba(255,255,255,0.35); font-size: 0.85rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ANIMATIONS */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .pillars-grid { grid-template-columns: 1fr; }
+      .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .steps-grid { grid-template-columns: 1fr 1fr; gap: 0; }
+      .step-card:not(:last-child)::after { display: none; }
+      .sectors-grid { grid-template-columns: 1fr 1fr; }
+      .founder-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .pillars-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+      section { padding: 4rem 1.25rem; }
+      .hero-content { padding: 1rem; }
+      .sectors-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="theCateringConsultant_wide_2000px.png" alt="The Catering Consultant" style="height: 32px;">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services" data-i18n="nav_services">Diensten</a></li>
+        <li><a href="#approach" data-i18n="nav_approach">Aanpak</a></li>
+        <li><a href="#sectors" data-i18n="nav_sectors">Sectoren</a></li>
+        <li><a href="#about" data-i18n="nav_about">Over ons</a></li>
+        <li><a href="#contact" class="nav-cta" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+      <div class="lang-switch">
+        <button onclick="setLang('nl')" class="active">NL</button>
+        <button onclick="setLang('fr')">FR</button>
+        <button onclick="setLang('en')">EN</button>
+      </div>
+      <button class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content fade-up">
+      <div class="hero-logo">
+        <img src="theCateringConsultant_short_600px.png" alt="The Catering Consultant">
+      </div>
+      <div class="hero-accent"></div>
+      <h1 data-i18n="hero_title" data-i18n-html="true">Architecten in catering <em>processen & operaties</em></h1>
+      <p data-i18n="hero_desc">Onafhankelijk advies en begeleiding voor facility managers die controle willen over hun cateringdiensten. Van ontwerp tot dagelijks beheer, wij zijn uw partner in elke fase.</p>
+      <div class="hero-buttons">
+        <a href="mailto:info@thecateringconsultant.be?subject=The%20Catering%20Consultant%20-%20Contact" class="btn btn-white" data-i18n="hero_cta">Neem contact op</a>
+        <a href="#services" class="btn btn-outline" data-i18n="hero_learn">Ontdek onze diensten</a>
+      </div>
+      <div class="hero-tags">
+        <span class="hero-tag">Design</span>
+        <span class="hero-tag">Operations</span>
+        <span class="hero-tag" data-i18n="tag_strategy">Strategisch advies</span>
+        <span class="hero-tag">NL / FR / EN</span>
+      </div>
+    </div>
+    <div class="scroll-hint"><span></span></div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro" id="intro">
+    <div class="container">
+      <span class="section-label fade-up" data-i18n="intro_label">Wie wij zijn</span>
+      <h2 class="section-title fade-up" data-i18n="intro_title">Uw onafhankelijke partner in bedrijfscatering</h2>
+      <p class="section-subtitle fade-up" data-i18n="intro_subtitle">Bij The Catering Consultant combineren we jarenlange operationele ervaring met data-analyse om facility managers te helpen hun cateringdiensten te optimaliseren.</p>
+
+      <div class="intro-grid">
+        <div class="intro-visual fade-up">
+          <div class="intro-visual-content">
+            <div class="big-number">20+</div>
+            <div class="big-label" data-i18n="intro_exp">Jaar ervaring</div>
+            <div class="intro-stats">
+              <div class="intro-stat">
+                <div class="val">3</div>
+                <div class="lbl" data-i18n="intro_pillars">Pijlers</div>
+              </div>
+              <div class="intro-stat">
+                <div class="val">50+</div>
+                <div class="lbl" data-i18n="intro_projects">Projecten</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="intro-text fade-up">
+          <h3 data-i18n="intro_challenge">De uitdaging van bedrijfscatering</h3>
+          <p data-i18n="intro_p1">Bedrijfscatering is een wereld apart. Uw gasten kiezen niet om te komen eten -- ze zijn er al. Dat maakt kwaliteit, effici&euml;ntie en kostenbeheer des te belangrijker.</p>
+          <p data-i18n="intro_p2">Als onafhankelijk consultant staan wij aan uw zijde. Wij ontwerpen keukenfaciliteiten, begeleiden aanbestedingen, beheren contracten en rapporteren onafhankelijk. Altijd met &eacute;&eacute;n doel: betere catering voor uw organisatie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE PILLARS -->
+  <section class="pillars" id="services">
+    <div class="container">
+      <div style="text-align: center;">
+        <span class="section-label fade-up" data-i18n="pillars_label">Onze diensten</span>
+        <h2 class="section-title fade-up" data-i18n="pillars_title">Drie pijlers, &eacute;&eacute;n missie</h2>
+        <p class="section-subtitle fade-up" style="margin: 0 auto;" data-i18n="pillars_subtitle">Van het eerste ontwerp tot dagelijks operationeel beheer: wij begeleiden u in elke fase van uw cateringproject.</p>
+      </div>
+
+      <div class="pillars-grid">
+        <!-- DESIGN -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h3>Design</h3>
+          <p data-i18n="p_design_desc">Ontwerp van keukenfaciliteiten en restaurants. Van vlekkenplan tot gedetailleerd inplantingsplan, inclusief CAPEX/OPEX berekening.</p>
+          <ul class="pillar-list">
+            <li data-i18n="p_design_1">Concept & layout ontwikkeling</li>
+            <li data-i18n="p_design_2">Technische specificaties & plannen</li>
+            <li data-i18n="p_design_3">Apparatuur & interieur inventaris</li>
+            <li data-i18n="p_design_4">CAPEX, OPEX & TCO berekening</li>
+            <li data-i18n="p_design_5">Werfopvolging & oplevering</li>
+          </ul>
+        </div>
+
+        <!-- OPERATIONS -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3>Operations</h3>
+          <p data-i18n="p_ops_desc">Sourcing, aanbesteding en implementatie van cateringdiensten. Wij begeleiden het volledige traject van concept tot operationele opstart.</p>
+          <ul class="pillar-list">
+            <li data-i18n="p_ops_1">Conceptontwikkeling & businesscase</li>
+            <li data-i18n="p_ops_2">Lastenboek & aanbesteding</li>
+            <li data-i18n="p_ops_3">Evaluatie & selectie cateraar</li>
+            <li data-i18n="p_ops_4">Transitie & implementatiebegeleiding</li>
+            <li data-i18n="p_ops_5">Periodieke rapportering & follow-up</li>
+          </ul>
+        </div>
+
+        <!-- STRATEGIC MANAGEMENT -->
+        <div class="pillar-card fade-up">
+          <div class="pillar-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3 data-i18n="p_strat_title">Strategisch Management & Advies</h3>
+          <p data-i18n="p_strat_desc">Doorlopend beheer en opvolging van uw cateringcontract. Onafhankelijke rapportering, audits en data-gedreven advies.</p>
+          <ul class="pillar-list">
+            <li data-i18n="p_strat_1">Contractbeheer & begeleiding</li>
+            <li data-i18n="p_strat_2">SLA/KPI opvolging & rapportering</li>
+            <li data-i18n="p_strat_3">Operationele audits & controle</li>
+            <li data-i18n="p_strat_4">Data-analyse & inzichten</li>
+            <li data-i18n="p_strat_5">Onafhankelijk analyseplatform (Arcanta)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section class="approach" id="approach">
+    <div class="container">
+      <div style="text-align: center;">
+        <span class="section-label fade-up" data-i18n="approach_label">Onze aanpak</span>
+        <h2 class="section-title fade-up" data-i18n="approach_title">Gestructureerd en resultaatgericht</h2>
+        <p class="section-subtitle fade-up" style="margin: 0 auto;" data-i18n="approach_subtitle">Elk project volgt een beproefde methodologie die operationele ervaring combineert met datagedreven inzichten.</p>
+      </div>
+
+      <div class="steps-grid fade-up">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 data-i18n="step1_title">Scope & visie</h3>
+          <p data-i18n="step1_desc">Samen defini&euml;ren we de visie, het doel en de grenzen van uw cateringproject.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 data-i18n="step2_title">Data & analyse</h3>
+          <p data-i18n="step2_desc">We verzamelen en analyseren operationele data om een solide basis te leggen voor beslissingen.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 data-i18n="step3_title">Concept & uitvoering</h3>
+          <p data-i18n="step3_desc">Van technisch ontwerp tot aanbesteding en implementatie: wij begeleiden elke stap.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h3 data-i18n="step4_title">Beheer & rapportering</h3>
+          <p data-i18n="step4_desc">Doorlopende opvolging, periodieke rapportering en continue verbetering van uw cateringdiensten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTORS -->
+  <section class="sectors" id="sectors">
+    <div class="container">
+      <div style="text-align: center;">
+        <span class="section-label fade-up" data-i18n="sectors_label">Sectoren</span>
+        <h2 class="section-title fade-up" data-i18n="sectors_title">Ervaring in diverse omgevingen</h2>
+        <p class="section-subtitle fade-up" style="margin: 0 auto;" data-i18n="sectors_subtitle">Overal waar catering een essentieel onderdeel is van de werkomgeving, brengen wij expertise en ervaring.</p>
+      </div>
+
+      <div class="sectors-grid fade-up">
+        <div class="sector-card">
+          <div class="sector-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6BAAD0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <h3 data-i18n="sec_business">Business</h3>
+          <p data-i18n="sec_business_desc">Bedrijfsrestaurants & kantoren</p>
+        </div>
+        <div class="sector-card">
+          <div class="sector-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6BAAD0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
+          </div>
+          <h3 data-i18n="sec_industry">Industrie</h3>
+          <p data-i18n="sec_industry_desc">Productieomgevingen & fabrieken</p>
+        </div>
+        <div class="sector-card">
+          <div class="sector-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6BAAD0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 12 3 12 0v-5"/></svg>
+          </div>
+          <h3 data-i18n="sec_education">Onderwijs</h3>
+          <p data-i18n="sec_education_desc">Universiteiten & campussen</p>
+        </div>
+        <div class="sector-card">
+          <div class="sector-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6BAAD0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3 data-i18n="sec_healthcare">Gezondheidszorg</h3>
+          <p data-i18n="sec_healthcare_desc">Ziekenhuizen & zorginstellingen</p>
+        </div>
+        <div class="sector-card">
+          <div class="sector-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6BAAD0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Events</h3>
+          <p data-i18n="sec_events_desc">Conferenties & evenementen</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="founder" id="about">
+    <div class="container">
+      <span class="section-label fade-up" data-i18n="founder_label">Over ons</span>
+      <h2 class="section-title fade-up" data-i18n="founder_title">Ervaring die telt</h2>
+
+      <div class="founder-grid">
+        <div class="founder-card fade-up">
+          <div class="founder-avatar">FV</div>
+          <h3>Frederik Van Lysebetten</h3>
+          <div class="role" data-i18n="founder_role">Oprichter & Managing Consultant</div>
+          <div class="contact-line">+32 (0) 478 333 034</div>
+          <div class="contact-line"><a href="mailto:info@thecateringconsultant.be">info@thecateringconsultant.be</a></div>
+        </div>
+        <div class="founder-details fade-up">
+          <h3 data-i18n="founder_details_title">Van cateringexpert tot onafhankelijk consultant</h3>
+          <p data-i18n="founder_details_p1">Met meer dan 20 jaar ervaring in bedrijfscatering -- van chef-gerant en unit manager tot projectleider en teamlead catering advisory -- brengt Frederik een unieke combinatie van operationele kennis en strategisch inzicht.</p>
+          <p data-i18n="founder_details_p2">Als oprichter van Triple Solutions combineert hij consultancy (The Catering Consultant) met data-analyse (Arcanta) om facility managers de tools en inzichten te geven die ze nodig hebben.</p>
+          <div class="founder-creds">
+            <span class="founder-cred" data-i18n="cred_1">Gastdocent AP Hogeschool</span>
+            <span class="founder-cred" data-i18n="cred_2">Gastdocent Odisee</span>
+            <span class="founder-cred" data-i18n="cred_3">Co-auteur boek "Catering" (Politeia)</span>
+            <span class="founder-cred">20+ jaar ervaring</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <h2 class="fade-up" data-i18n="cta_title">Klaar om uw catering naar een hoger niveau te tillen?</h2>
+      <p class="fade-up" data-i18n="cta_desc">Of het nu gaat om een nieuw keukenontwerp, een aanbesteding of doorlopend contractbeheer -- wij helpen u graag. Neem vrijblijvend contact op.</p>
+      <div class="cta-buttons fade-up">
+        <a href="mailto:info@thecateringconsultant.be?subject=The%20Catering%20Consultant%20-%20Contact" class="btn btn-primary" data-i18n="cta_btn">Neem contact op</a>
+      </div>
+      <p class="fade-up" style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-light);">info@thecateringconsultant.be</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">The Catering Consultant <span>by Triple Solutions</span></div>
+        <p style="margin-top: 0.25rem;">&copy; 2026 Triple Solutions. All rights reserved.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#services" data-i18n="nav_services">Diensten</a>
+        <a href="#approach" data-i18n="nav_approach">Aanpak</a>
+        <a href="#sectors" data-i18n="nav_sectors">Sectoren</a>
+        <a href="#about" data-i18n="nav_about">Over ons</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    window.addEventListener('load', () => {
+      document.querySelector('.hero .fade-up').classList.add('visible');
+    });
+
+    /* -- i18n -- */
+    const T = {
+      en: {
+        nav_services: "Services", nav_approach: "Approach", nav_sectors: "Sectors", nav_about: "About", nav_contact: "Contact",
+        hero_title: "Architects in catering <em>processes & operations</em>",
+        hero_desc: "Independent advice and guidance for facility managers who want control over their catering services. From design to daily management, we are your partner in every phase.",
+        hero_cta: "Get in touch", hero_learn: "Discover our services", tag_strategy: "Strategic advice",
+        intro_label: "Who we are", intro_title: "Your independent partner in corporate catering",
+        intro_subtitle: "At The Catering Consultant, we combine years of operational experience with data analysis to help facility managers optimise their catering services.",
+        intro_exp: "Years of experience", intro_pillars: "Pillars", intro_projects: "Projects",
+        intro_challenge: "The challenge of corporate catering",
+        intro_p1: "Corporate catering is a world of its own. Your guests don't choose to come eat \u2014 they're already there. That makes quality, efficiency and cost management all the more important.",
+        intro_p2: "As an independent consultant, we stand by your side. We design kitchen facilities, guide tenders, manage contracts and report independently. Always with one goal: better catering for your organisation.",
+        pillars_label: "Our services", pillars_title: "Three pillars, one mission",
+        pillars_subtitle: "From initial design to daily operational management: we guide you through every phase of your catering project.",
+        p_design_desc: "Design of kitchen facilities and restaurants. From basic layout to detailed floor plans, including CAPEX/OPEX calculations.",
+        p_design_1: "Concept & layout development", p_design_2: "Technical specifications & plans", p_design_3: "Equipment & interior inventory",
+        p_design_4: "CAPEX, OPEX & TCO calculation", p_design_5: "Site supervision & delivery",
+        p_ops_desc: "Sourcing, tendering and implementation of catering services. We guide the full journey from concept to operational launch.",
+        p_ops_1: "Concept development & business case", p_ops_2: "Specifications & tendering", p_ops_3: "Evaluation & caterer selection",
+        p_ops_4: "Transition & implementation support", p_ops_5: "Periodic reporting & follow-up",
+        p_strat_title: "Strategic Management & Advisory",
+        p_strat_desc: "Ongoing management and monitoring of your catering contract. Independent reporting, audits and data-driven advice.",
+        p_strat_1: "Contract management & guidance", p_strat_2: "SLA/KPI monitoring & reporting", p_strat_3: "Operational audits & control",
+        p_strat_4: "Data analysis & insights", p_strat_5: "Independent analytics platform (Arcanta)",
+        approach_label: "Our approach", approach_title: "Structured and results-driven",
+        approach_subtitle: "Every project follows a proven methodology that combines operational experience with data-driven insights.",
+        step1_title: "Scope & vision", step1_desc: "Together we define the vision, purpose and boundaries of your catering project.",
+        step2_title: "Data & analysis", step2_desc: "We collect and analyse operational data to build a solid foundation for decisions.",
+        step3_title: "Concept & execution", step3_desc: "From technical design to tendering and implementation: we guide every step.",
+        step4_title: "Management & reporting", step4_desc: "Ongoing monitoring, periodic reporting and continuous improvement of your catering services.",
+        sectors_label: "Sectors", sectors_title: "Experience across diverse environments",
+        sectors_subtitle: "Wherever catering is an essential part of the work environment, we bring expertise and experience.",
+        sec_business: "Business", sec_business_desc: "Corporate restaurants & offices",
+        sec_industry: "Industry", sec_industry_desc: "Production environments & factories",
+        sec_education: "Education", sec_education_desc: "Universities & campuses",
+        sec_healthcare: "Healthcare", sec_healthcare_desc: "Hospitals & care institutions",
+        sec_events_desc: "Conferences & events",
+        founder_label: "About us", founder_title: "Experience that matters",
+        founder_role: "Founder & Managing Consultant",
+        founder_details_title: "From catering expert to independent consultant",
+        founder_details_p1: "With over 20 years of experience in corporate catering \u2014 from chef-manager and unit manager to project lead and team lead catering advisory \u2014 Frederik brings a unique combination of operational knowledge and strategic insight.",
+        founder_details_p2: "As founder of Triple Solutions, he combines consultancy (The Catering Consultant) with data analytics (Arcanta) to give facility managers the tools and insights they need.",
+        cred_1: "Guest lecturer AP University College", cred_2: "Guest lecturer Odisee",
+        cred_3: "Co-author book \"Catering\" (Politeia)",
+        cta_title: "Ready to take your catering to the next level?",
+        cta_desc: "Whether it's a new kitchen design, a tender or ongoing contract management \u2014 we're happy to help. Get in touch for a no-obligation conversation.",
+        cta_btn: "Get in touch"
+      },
+      fr: {
+        nav_services: "Services", nav_approach: "Approche", nav_sectors: "Secteurs", nav_about: "\u00c0 propos", nav_contact: "Contact",
+        hero_title: "Architectes en <em>processus & op\u00e9rations</em> de restauration",
+        hero_desc: "Conseils et accompagnement ind\u00e9pendants pour les facility managers qui veulent ma\u00eetriser leurs services de restauration. De la conception \u00e0 la gestion quotidienne, nous sommes votre partenaire \u00e0 chaque \u00e9tape.",
+        hero_cta: "Nous contacter", hero_learn: "D\u00e9couvrez nos services", tag_strategy: "Conseil strat\u00e9gique",
+        intro_label: "Qui sommes-nous", intro_title: "Votre partenaire ind\u00e9pendant en restauration d'entreprise",
+        intro_subtitle: "Chez The Catering Consultant, nous combinons des ann\u00e9es d'exp\u00e9rience op\u00e9rationnelle avec l'analyse de donn\u00e9es pour aider les facility managers \u00e0 optimiser leurs services de restauration.",
+        intro_exp: "Ann\u00e9es d'exp\u00e9rience", intro_pillars: "Piliers", intro_projects: "Projets",
+        intro_challenge: "Le d\u00e9fi de la restauration d'entreprise",
+        intro_p1: "La restauration d'entreprise est un monde \u00e0 part. Vos convives ne choisissent pas de venir manger \u2014 ils sont d\u00e9j\u00e0 l\u00e0. Cela rend la qualit\u00e9, l'efficacit\u00e9 et la gestion des co\u00fbts d'autant plus importants.",
+        intro_p2: "En tant que consultant ind\u00e9pendant, nous sommes \u00e0 vos c\u00f4t\u00e9s. Nous concevons des cuisines, guidons les appels d'offres, g\u00e9rons les contrats et rapportons de mani\u00e8re ind\u00e9pendante. Toujours avec un seul objectif : une meilleure restauration pour votre organisation.",
+        pillars_label: "Nos services", pillars_title: "Trois piliers, une mission",
+        pillars_subtitle: "De la conception initiale \u00e0 la gestion op\u00e9rationnelle quotidienne : nous vous accompagnons \u00e0 chaque phase de votre projet de restauration.",
+        p_design_desc: "Conception d'installations de cuisine et de restaurants. Du plan de base au plan d\u00e9taill\u00e9, y compris les calculs CAPEX/OPEX.",
+        p_design_1: "D\u00e9veloppement de concept & layout", p_design_2: "Sp\u00e9cifications techniques & plans", p_design_3: "Inventaire \u00e9quipements & int\u00e9rieur",
+        p_design_4: "Calcul CAPEX, OPEX & TCO", p_design_5: "Suivi de chantier & r\u00e9ception",
+        p_ops_desc: "Sourcing, appel d'offres et impl\u00e9mentation de services de restauration. Nous guidons le parcours complet du concept au d\u00e9marrage op\u00e9rationnel.",
+        p_ops_1: "D\u00e9veloppement concept & business case", p_ops_2: "Cahier des charges & appel d'offres", p_ops_3: "\u00c9valuation & s\u00e9lection traiteur",
+        p_ops_4: "Transition & accompagnement impl\u00e9mentation", p_ops_5: "Rapportage p\u00e9riodique & suivi",
+        p_strat_title: "Management Strat\u00e9gique & Conseil",
+        p_strat_desc: "Gestion continue et suivi de votre contrat de restauration. Rapportage ind\u00e9pendant, audits et conseils fond\u00e9s sur les donn\u00e9es.",
+        p_strat_1: "Gestion de contrat & accompagnement", p_strat_2: "Suivi SLA/KPI & rapportage", p_strat_3: "Audits op\u00e9rationnels & contr\u00f4le",
+        p_strat_4: "Analyse de donn\u00e9es & insights", p_strat_5: "Plateforme analytique ind\u00e9pendante (Arcanta)",
+        approach_label: "Notre approche", approach_title: "Structur\u00e9e et orient\u00e9e r\u00e9sultats",
+        approach_subtitle: "Chaque projet suit une m\u00e9thodologie \u00e9prouv\u00e9e qui combine exp\u00e9rience op\u00e9rationnelle et insights data-driven.",
+        step1_title: "Scope & vision", step1_desc: "Ensemble, nous d\u00e9finissons la vision, l'objectif et les limites de votre projet de restauration.",
+        step2_title: "Donn\u00e9es & analyse", step2_desc: "Nous collectons et analysons les donn\u00e9es op\u00e9rationnelles pour b\u00e2tir une base solide de d\u00e9cisions.",
+        step3_title: "Concept & ex\u00e9cution", step3_desc: "De la conception technique \u00e0 l'appel d'offres et l'impl\u00e9mentation : nous guidons chaque \u00e9tape.",
+        step4_title: "Gestion & rapportage", step4_desc: "Suivi continu, rapportage p\u00e9riodique et am\u00e9lioration continue de vos services de restauration.",
+        sectors_label: "Secteurs", sectors_title: "Exp\u00e9rience dans divers environnements",
+        sectors_subtitle: "Partout o\u00f9 la restauration est un \u00e9l\u00e9ment essentiel de l'environnement de travail, nous apportons expertise et exp\u00e9rience.",
+        sec_business: "Entreprises", sec_business_desc: "Restaurants d'entreprise & bureaux",
+        sec_industry: "Industrie", sec_industry_desc: "Environnements de production & usines",
+        sec_education: "Enseignement", sec_education_desc: "Universit\u00e9s & campus",
+        sec_healthcare: "Sant\u00e9", sec_healthcare_desc: "H\u00f4pitaux & \u00e9tablissements de soins",
+        sec_events_desc: "Conf\u00e9rences & \u00e9v\u00e9nements",
+        founder_label: "\u00c0 propos", founder_title: "L'exp\u00e9rience qui compte",
+        founder_role: "Fondateur & Managing Consultant",
+        founder_details_title: "D'expert en restauration \u00e0 consultant ind\u00e9pendant",
+        founder_details_p1: "Avec plus de 20 ans d'exp\u00e9rience en restauration d'entreprise \u2014 du chef-g\u00e9rant et unit manager au chef de projet et team lead catering advisory \u2014 Frederik apporte une combinaison unique de connaissance op\u00e9rationnelle et de vision strat\u00e9gique.",
+        founder_details_p2: "En tant que fondateur de Triple Solutions, il combine consultance (The Catering Consultant) et analyse de donn\u00e9es (Arcanta) pour offrir aux facility managers les outils et insights dont ils ont besoin.",
+        cred_1: "Charg\u00e9 de cours AP University College", cred_2: "Charg\u00e9 de cours Odisee",
+        cred_3: "Co-auteur du livre \"Catering\" (Politeia)",
+        cta_title: "Pr\u00eat \u00e0 hisser votre restauration au niveau sup\u00e9rieur ?",
+        cta_desc: "Qu'il s'agisse d'une nouvelle conception de cuisine, d'un appel d'offres ou d'une gestion de contrat continue \u2014 nous sommes l\u00e0 pour vous. Contactez-nous pour une conversation sans engagement.",
+        cta_btn: "Nous contacter"
+      }
+    };
+
+    let currentLang = 'nl';
+    const originals = {};
+
+    function setLang(lang) {
+      if (lang === currentLang) return;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (!originals[key]) originals[key] = el.getAttribute('data-i18n-html') === 'true' ? el.innerHTML : el.textContent;
+        if (lang === 'nl') {
+          if (el.getAttribute('data-i18n-html') === 'true') el.innerHTML = originals[key];
+          else el.textContent = originals[key];
+        } else {
+          const val = T[lang] && T[lang][key];
+          if (val) {
+            if (el.getAttribute('data-i18n-html') === 'true') el.innerHTML = val;
+            else el.textContent = val;
+          }
+        }
+      });
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.lang-switch button').forEach(b => {
+        b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+      });
+    }
+  </script>
+</body>
+</html>
